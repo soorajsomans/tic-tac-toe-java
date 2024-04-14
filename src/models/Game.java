@@ -4,10 +4,7 @@ import exceptions.PlayerCountMisMatchException;
 import exceptions.SymbolUsedException;
 import startegies.winningStrategies.WinningStrategy;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Game {
     private Board board;
@@ -61,6 +58,32 @@ public class Game {
 
     public static Builder getBuilder(){
         return  new Builder();
+    }
+
+    public void undo() {
+        /*
+        1. Remove last entry from moves array
+        2. Update the board, cell state and player
+        3. Update OrderOneWinning Strategy maps (winningStrategy.handleUndo)
+        4. Toggle the player
+        */
+
+        Player player = players.get(currentPlayerIndex);
+        // current player already switched to
+        if(player.getPlayerType().equals(PlayerType.BOT)){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Do you want to undo the last move ? (Y/N)");
+            String isUndo = sc.nextLine();
+            if(isUndo.equals("Y")) {
+                Move removedMove = moves.remove(moves.size() - 1);
+                Cell cell = removedMove.getCell();
+                cell.setCellState(CellState.EMPTY);
+                cell.setPlayer(null);
+                winningStrategy.handleUndo(board, removedMove);
+                currentPlayerIndex = (currentPlayerIndex+1) % players.size();
+            }
+        }
+
     }
 
 

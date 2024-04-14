@@ -37,5 +37,7 @@ public class GameController {
         return game.getGameState();
     }
 
-    public void undo(Game game){}
+    public void undo(Game game){
+        game.undo();
+    }
 }

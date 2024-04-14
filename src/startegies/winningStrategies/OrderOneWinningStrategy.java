@@ -54,4 +54,28 @@ public class OrderOneWinningStrategy implements WinningStrategy{
                 diagonal.getOrDefault(player.getSymbol(),0) == board.getSize() ||
                 reverse_diagonal.getOrDefault(player.getSymbol(),0) == board.getSize();
     }
+
+    @Override
+    public void handleUndo(Board board, Move move) {
+        Cell cell = move.getCell();
+        Player player = move.getPlayer();
+        int row = cell.getRow();
+        int col = cell.getColumn();
+
+        Map<Symbol, Integer> rowMap = rows.get(row);
+        rowMap.put(player.getSymbol(), rowMap.getOrDefault(player.getSymbol(), 0)-1);
+
+        Map<Symbol, Integer> colMap = cols.get(col);
+        colMap.put(player.getSymbol(), colMap.getOrDefault(player.getSymbol(), 0)-1);
+
+        //Diagonal check
+        if(row == col){
+            diagonal.put(player.getSymbol(), diagonal.getOrDefault(player.getSymbol(), 0)-1);
+        }
+        //Reverse diagonal check
+
+        if(row+col == board.getSize() -1){
+            reverse_diagonal.put(player.getSymbol(), reverse_diagonal.getOrDefault(player.getSymbol(), 0)-1);
+        }
+    }
 }

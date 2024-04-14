@@ -22,6 +22,10 @@ public class Main {
         while(gameController.checkState(game).equals(GameState.IN_PROGRESS)){
             gameController.displayBoard(game);
             gameController.makeMove(game);
+            //Undo Feature
+            if(gameController.checkState(game).equals(GameState.IN_PROGRESS)){
+                gameController.undo(game);
+            }
         }
         if(gameController.checkState(game).equals(GameState.SUCCESS)){
             System.out.println("Winner is "+ gameController.getWinner(game).getName());
