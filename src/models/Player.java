@@ -1,26 +1,28 @@
 package models;
 
+import java.util.Scanner;
+
 public class Player {
-    private String na,e;
+    private String name;
     private int id;
     private Symbol symbol;
     private PlayerType playerType;
 
-    public String getNa() {
-        return na;
+    public Player(String name, int id, Symbol symbol, PlayerType playerType) {
+        this.name = name;
+        this.id = id;
+        this.symbol = symbol;
+        this.playerType = playerType;
     }
 
-    public void setNa(String na) {
-        this.na = na;
+    public String getName() {
+        return name;
     }
 
-    public String getE() {
-        return e;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setE(String e) {
-        this.e = e;
-    }
 
     public int getId() {
         return id;
@@ -44,5 +46,25 @@ public class Player {
 
     public void setPlayerType(PlayerType playerType) {
         this.playerType = playerType;
+    }
+
+    public Move makeMove(Board board) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("It's "+ name + "'s turn");
+        System.out.println("Please enter the row");
+        int row = scanner.nextInt();
+
+        System.out.println("Please enter column");
+        int col = scanner.nextInt();
+
+        //TODO validate move
+        Cell cell = board.getBoard().get(row).get(col);
+        cell.setPlayer(this);
+        cell.setCellState(CellState.FILLED);
+
+        Move move = new Move();
+        move.setPlayer(this);
+        move.setCell(cell);
+        return move;
     }
 }
