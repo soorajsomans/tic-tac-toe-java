@@ -50,7 +50,7 @@ public class Player {
 
     public Move makeMove(Board board) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("It's "+ name + "'s turn");
+        System.out.println("Its "+ name + "'s turn");
         System.out.println("Please enter the row");
         int row = scanner.nextInt();
 
