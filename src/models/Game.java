@@ -67,20 +67,19 @@ public class Game {
         3. Update OrderOneWinning Strategy maps (winningStrategy.handleUndo)
         4. Toggle the player
         */
-
-        Player player = players.get(currentPlayerIndex);
-        // current player already switched to
-        if(player.getPlayerType().equals(PlayerType.BOT)){
+        Move lastMove = moves.get(moves.size() - 1);
+        Player player = lastMove.getPlayer();
+        if(player.getPlayerType().equals(PlayerType.HUMAN)){
             Scanner sc = new Scanner(System.in);
             System.out.println("Do you want to undo the last move ? (Y/N)");
             String isUndo = sc.nextLine();
             if(isUndo.equals("Y")) {
-                Move removedMove = moves.remove(moves.size() - 1);
-                Cell cell = removedMove.getCell();
+                moves.remove(moves.size() - 1);
+                Cell cell = lastMove.getCell();
                 cell.setCellState(CellState.EMPTY);
                 cell.setPlayer(null);
-                winningStrategy.handleUndo(board, removedMove);
-                currentPlayerIndex = (currentPlayerIndex+1) % players.size();
+                winningStrategy.handleUndo(board, lastMove);
+                currentPlayerIndex = (currentPlayerIndex - 1 + players.size()) % players.size();
             }
         }
 
